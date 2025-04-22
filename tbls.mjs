@@ -4,11 +4,11 @@ USERS TBL
 ---------
 
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
+    userId SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     emailId VARCHAR(150) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    DOB DATE,
+    dob DATE,
     gender VARCHAR(10),
     address TEXT,
     aadharNumber VARCHAR(12) UNIQUE,
@@ -16,45 +16,31 @@ CREATE TABLE users (
     contactNumber VARCHAR(15),
     emergencyContact VARCHAR(15),
     profilePicture BYTEA,
-    Document BYTEA,
+    document BYTEA,
     floor INTEGER,
-    room_number VARCHAR(10),
-    room_type VARCHAR(50),
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_changed_by VARCHAR(100),
-    allow_user BOOLEAN DEFAULT false
+    roomNumber VARCHAR(10),
+    roomType VARCHAR(50),
+    isActive BOOLEAN DEFAULT TRUE,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastChangedBy VARCHAR(100),
+    allowUser BOOLEAN DEFAULT FALSE
 );
 
 
-FLOOR TBL => 1
----------
 
-CREATE TABLE floor (
-    id SERIAL PRIMARY KEY,
-    floorID INTEGER NOT NULL,
-    roomNumber VARCHAR(10) NOT NULL,
-    roomSharing INTEGER,
-    price NUMERIC(10, 2),
-    vacancy INTEGER,
-    upcomingVacancy DATE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
-FLOOR TBL => 2
+FLOOR TBL
 ---------
 
 CREATE TABLE floor (
     id SERIAL PRIMARY KEY,
     floor INTEGER NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(100),
-    last_changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_changed_by VARCHAR(100)
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    createdBy VARCHAR(100),
+    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastChangedBy VARCHAR(100)
 );
+
 
 ROOM TBL
 --------
@@ -62,42 +48,83 @@ ROOM TBL
 CREATE TABLE room (
     id SERIAL PRIMARY KEY,
     floor INTEGER NOT NULL,
-    room_number VARCHAR(10) NOT NULL,
+    roomNumber VARCHAR(10) NOT NULL,
     sharing INTEGER,
     price NUMERIC(10, 2),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(100),
-    last_changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_changed_by VARCHAR(100)
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    createdBy VARCHAR(100),
+    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastChangedBy VARCHAR(100)
 );
+
 
 BED TBL
 -------
 
 CREATE TABLE bed (
     id SERIAL PRIMARY KEY,
-    room_number VARCHAR(10) NOT NULL,
-    bed_number VARCHAR(10) NOT NULL,
+    roomNumber VARCHAR(10) NOT NULL,
+    bedNumber VARCHAR(10) NOT NULL,
     vacancy BOOLEAN DEFAULT TRUE,
     upcomingVacancy DATE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(100),
-    last_changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_changed_by VARCHAR(100)
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    createdBy VARCHAR(100),
+    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastChangedBy VARCHAR(100)
 );
+
 
 ANNOUNCEMENT TBL
 ----------------
 
 CREATE TABLE announcement (
     id SERIAL PRIMARY KEY,
-    announcement_ID VARCHAR(50) UNIQUE NOT NULL,
-    announcement_Msg TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(100),
-    last_changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_changed_by VARCHAR(100)
+    announcementId VARCHAR(50) UNIQUE NOT NULL,
+    announcementMsg TEXT NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    createdBy VARCHAR(100),
+    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastChangedBy VARCHAR(100)
 );
+
+
+QUERIES TBL
+-----------
+
+CREATE TABLE queries (
+    id SERIAL PRIMARY KEY,
+    queryId VARCHAR(50) UNIQUE NOT NULL,
+    userId INTEGER,
+    subject VARCHAR(150),
+    message TEXT NOT NULL,
+    status VARCHAR(50) DEFAULT 'Open',  -- e.g., Open, In Progress, Resolved
+    response TEXT,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    createdBy VARCHAR(100),
+    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastChangedBy VARCHAR(100)
+);
+
+PAYMENT TBL
+-----------
+
+CREATE TABLE payment (
+    paymentId SERIAL PRIMARY KEY,
+    userId INTEGER NOT NULL,
+    amount NUMERIC(10, 2) NOT NULL,
+    totalPaid NUMERIC(10, 2) GENERATED ALWAYS AS (amount) STORED,
+    paymentDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    paymentMonth VARCHAR(20), -- e.g., "April 2025"
+    paymentMethod VARCHAR(50), -- e.g., UPI, CreditCard, Cash
+    transactionId VARCHAR(100) UNIQUE,
+    status VARCHAR(50) DEFAULT 'Pending', -- e.g., Pending, Completed, Failed
+    notes TEXT,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    createdBy VARCHAR(100),
+    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastChangedBy VARCHAR(100)
+);
+
 
 
 
