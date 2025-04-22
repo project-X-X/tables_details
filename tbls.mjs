@@ -22,6 +22,7 @@ CREATE TABLE users (
     roomType VARCHAR(50),
     isActive BOOLEAN DEFAULT TRUE,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    createdBy VARCHAR(100),
     lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     lastChangedBy VARCHAR(100),
     allowUser BOOLEAN DEFAULT FALSE
@@ -50,6 +51,7 @@ CREATE TABLE room (
     floor INTEGER NOT NULL,
     roomNumber VARCHAR(10) NOT NULL,
     sharing INTEGER,
+    type VARCHGAR(50),
     price NUMERIC(10, 2),
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     createdBy VARCHAR(100),
