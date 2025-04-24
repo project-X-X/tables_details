@@ -4,27 +4,24 @@ USERS TBL
 ---------
 
 CREATE TABLE users (
-    userId SERIAL PRIMARY KEY,
+    userId uuid PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    emailId VARCHAR(150) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    dob DATE,
+    emailId VARCHAR(50)  NOT NULL,
+    password VARCHAR(10) NOT NULL,
+    dob VARCHAR(15),
     gender VARCHAR(10),
-    address TEXT,
+    address VARCHAR(150),
     aadharNumber VARCHAR(12) UNIQUE,
     occupation VARCHAR(100),
     contactNumber VARCHAR(15),
     emergencyContact VARCHAR(15),
     profilePicture BYTEA,
     document BYTEA,
-    floor INTEGER,
-    roomNumber VARCHAR(10),
-    roomType VARCHAR(50),
-    isActive BOOLEAN DEFAULT TRUE,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    createdBy VARCHAR(100),
-    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    lastChangedBy VARCHAR(100),
+    isActive BOOLEAN DEFAULT true,
+    createdAt current_timestamp,
+    createdBy VARCHAR(50),
+    lastChangedAt current_timestamp,
+    lastChangedBy VARCHAR(50),
     allowUser BOOLEAN DEFAULT FALSE
 );
 
@@ -34,12 +31,12 @@ FLOOR TBL
 ---------
 
 CREATE TABLE floor (
-    id SERIAL PRIMARY KEY,
-    floor INTEGER NOT NULL,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    createdBy VARCHAR(100),
-    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    lastChangedBy VARCHAR(100)
+    floorId uuid PRIMARY KEY,
+    floor VARCHAR(10) NOT NULL,
+    createdAt current_timestamp,
+    createdBy VARCHAR(50),
+    lastChangedAt current_timestamp,
+    lastChangedBy VARCHAR(50)
 );
 
 
@@ -47,16 +44,18 @@ ROOM TBL
 --------
 
 CREATE TABLE room (
-    id SERIAL PRIMARY KEY,
-    floor INTEGER NOT NULL,
+    roomId uuid PRIMARY KEY,
     roomNumber VARCHAR(10) NOT NULL,
-    sharing INTEGER,
+    sharing VARCHAR(10),
     type VARCHGAR(50),
-    price NUMERIC(10, 2),
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    createdBy VARCHAR(100),
-    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    lastChangedBy VARCHAR(100)
+    price VARCHAR(10),
+    createdAt current_timestamp,
+    createdBy VARCHAR(50),
+    lastChangedAt current_timestamp,
+    lastChangedBy VARCHAR(50),
+
+    floorId uuid NOT NULL :FK
+
 );
 
 
@@ -64,15 +63,17 @@ BED TBL
 -------
 
 CREATE TABLE bed (
-    id SERIAL PRIMARY KEY,
-    roomNumber VARCHAR(10) NOT NULL,
+    bedId uuid PRIMARY KEY,
     bedNumber VARCHAR(10) NOT NULL,
-    vacancy BOOLEAN DEFAULT TRUE,
-    upcomingVacancy DATE,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    createdBy VARCHAR(100),
-    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    lastChangedBy VARCHAR(100)
+    vacancy BOOLEAN DEFAULT false,
+    upcomingVacancy VARCHAR(15),
+    createdAt current_timestamp,
+    createdBy VARCHAR(50),
+    lastChangedAt current_timestamp,
+    lastChangedBy VARCHAR(50),
+
+    roomId uuid  NOT NULL : FK
+
 );
 
 
@@ -80,13 +81,13 @@ ANNOUNCEMENT TBL
 ----------------
 
 CREATE TABLE announcement (
-    id SERIAL PRIMARY KEY,
-    announcementId VARCHAR(50) UNIQUE NOT NULL,
+    announcementId uuid PRIMARY KEY,
+    announcementSub VARCHAR(50)  NOT NULL,
     announcementMsg TEXT NOT NULL,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    createdBy VARCHAR(100),
-    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    lastChangedBy VARCHAR(100)
+    createdAt current_timestamp,
+    createdBy VARCHAR(50),
+    lastChangedAt current_timestamp,
+    lastChangedBy VARCHAR(50)
 );
 
 
@@ -94,37 +95,34 @@ QUERIES TBL
 -----------
 
 CREATE TABLE queries (
-    id SERIAL PRIMARY KEY,
-    queryId VARCHAR(50) UNIQUE NOT NULL,
-    userId INTEGER,
-    subject VARCHAR(150),
-    message TEXT NOT NULL,
-    status VARCHAR(50) DEFAULT 'Open',  -- e.g., Open, In Progress, Resolved
-    response TEXT,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    createdBy VARCHAR(100),
-    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    lastChangedBy VARCHAR(100)
+    queryId uuid PRIMARY KEY,
+    querySub VARCHAR(50)  NOT NULL,
+    userId uuid,
+    query VARCHAR(150) NOT NULL,
+    queryStatus VARCHAR(50),  -- e.g., Open, In Progress, Resolved
+    queryResponse VARCHAR(150),
+    createdAt current_timestamp,
+    createdBy VARCHAR(50),
+    lastChangedAt current_timestamp,
+    lastChangedBy VARCHAR(50)
 );
 
 PAYMENT TBL
 -----------
 
 CREATE TABLE payment (
-    paymentId SERIAL PRIMARY KEY,
-    userId INTEGER NOT NULL,
-    amount NUMERIC(10, 2) NOT NULL,
-    totalPaid NUMERIC(10, 2) GENERATED ALWAYS AS (amount) STORED,
-    paymentDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    paymentMonth VARCHAR(20), -- e.g., "April 2025"
+    paymentId uuid PRIMARY KEY,
+    userId uuid NOT NULL,
+    amount VARCHAR(10) NOT NULL,
+    paymentDate  CURRENT_TIMESTAMP,
     paymentMethod VARCHAR(50), -- e.g., UPI, CreditCard, Cash
     transactionId VARCHAR(100) UNIQUE,
-    status VARCHAR(50) DEFAULT 'Pending', -- e.g., Pending, Completed, Failed
-    notes TEXT,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    createdBy VARCHAR(100),
-    lastChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    lastChangedBy VARCHAR(100)
+    paymentStatus VARCHAR(50) DEFAULT 'Pending', -- e.g., Pending, Completed, Failed
+    notes VARCHAR(50),
+    createdAt current_timestamp,
+    createdBy VARCHAR(50),
+    lastChangedAt current_timestamp,
+    lastChangedBy VARCHAR(50)
 );
 
 
