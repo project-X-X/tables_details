@@ -133,6 +133,161 @@ CREATE TABLE "payment" (
 );
 
 
+=-==============================================================================================================================
+
+import React from "react";
+import "./LoginPage.css";
+import background from "../assets/background.jpg";
+
+const LoginPage = () => {
+  return (
+    <div
+      className="background-image"
+      style={{ backgroundImage: `url(${background})` }}
+    >
+      <div className="overlay">
+        <div className="welcome-text">
+          <h1>Welcome To<br />The Website</h1>
+        </div>
+        <form className="login-form">
+          <h2><em>USER LOGIN</em></h2>
+          <div className="input-group">
+            <span className="icon">👤</span>
+            <input type="email" placeholder="Email" required />
+          </div>
+          <div className="input-group">
+            <span className="icon">🔒</span>
+            <input type="password" placeholder="Password" required />
+          </div>
+          <div className="options">
+            <label><input type="checkbox" /> Remember</label>
+            <a href="#">Forgot Password</a>
+          </div>
+          <button type="submit" className="login-btn">Login</button>
+          <p><a href="#">Sign up</a></p>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;
+
+
+
+
+==========================================================================================================================
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body, html, #root {
+  height: 100%;
+}
+
+.background-image {
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  background-color: rgba(255, 165, 79, 0.9);
+  padding: 40px;
+  border-radius: 15px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.welcome-text {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.welcome-text h1 {
+  font-size: 2rem;
+  text-shadow: 1px 1px 3px #000;
+}
+
+.login-form {
+  background: transparent;
+}
+
+.login-form h2 {
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 15px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+}
+
+.input-group .icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.input-group input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 1rem;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.login-btn {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.login-form a {
+  color: black;
+  text-decoration: none;
+}
+
+
+
+=========================================================================================================================================
+
+
+
+
+import React from "react";
+import LoginPage from "./components/LoginPage";
+
+function App() {
+  return <LoginPage />;
+}
+
+export default App;
 
 
 
